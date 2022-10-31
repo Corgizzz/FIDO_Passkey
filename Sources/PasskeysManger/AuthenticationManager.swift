@@ -9,9 +9,15 @@ import Foundation
 import AuthenticationServices
 import os
 
-class AuthenticationManager: NSObject {
+public final class AuthenticationManager: NSObject {
     
-    let domain = "reply-party-fido-demo.ipe.codes"
+    private var domain: String
+    
+    public init(domain: String) {
+        self.domain = domain
+    }
+    
+//    let domain = "reply-party-fido-demo.ipe.codes"
     
     var authenticationAnchor: ASPresentationAnchor?
     
@@ -22,7 +28,7 @@ class AuthenticationManager: NSObject {
     // MARK: PassKeys signUp
     
     @available(iOS 15.0, *)
-    func signUpWith(userName: String, challenge: String, userID:String, anchor: ASPresentationAnchor) {
+    public func signUpWith(userName: String, challenge: String, userID:String, anchor: ASPresentationAnchor) {
         
         self.authenticationAnchor = anchor
         
@@ -54,7 +60,7 @@ class AuthenticationManager: NSObject {
     // MARK: PassKeys signIn
     
     @available(iOS 15.0, *)
-    func signInWith(challenge: String, anchor: ASPresentationAnchor, preferImmediatelyAvailableCredentials: Bool) {
+    public func signInWith(challenge: String, anchor: ASPresentationAnchor, preferImmediatelyAvailableCredentials: Bool) {
         
         self.authenticationAnchor = anchor
         
@@ -125,7 +131,7 @@ class AuthenticationManager: NSObject {
 @available(iOS 15.0, *)
 extension AuthenticationManager: ASAuthorizationControllerDelegate {
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         let logger = Logger()
         switch authorization.credential {
         case let credentialRegistration as ASAuthorizationPlatformPublicKeyCredentialRegistration:
@@ -165,7 +171,7 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
         isPerformingModalRequest = false
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    public func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         let logger = Logger()
         guard let authorizationError = error as? ASAuthorizationError else {
             isPerformingModalRequest = false
@@ -194,7 +200,7 @@ extension AuthenticationManager: ASAuthorizationControllerDelegate {
 extension AuthenticationManager: ASAuthorizationControllerPresentationContextProviding {
     
     @available(iOS 13.0, *)
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+    public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return authenticationAnchor!
     }
 }
