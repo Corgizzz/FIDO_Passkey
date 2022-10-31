@@ -23,7 +23,7 @@ public final class AuthenticationManager: NSObject {
     
     var isPerformingModalRequest: Bool = false
     
-    var delegate: AuthenticationManagerDelegate?
+    public var delegate: AuthenticationManagerDelegate?
     
     // MARK: PassKeys signUp
     
@@ -205,7 +205,7 @@ extension AuthenticationManager: ASAuthorizationControllerPresentationContextPro
     }
 }
 
-@objc protocol AuthenticationManagerDelegate: NSObjectProtocol {
+@objc public protocol AuthenticationManagerDelegate: NSObjectProtocol {
     
     @available(iOS 15.0, *)
     @objc optional func signUpWithPassKeys(with credentialRegistration: ASAuthorizationPlatformPublicKeyCredentialRegistration)
